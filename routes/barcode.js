@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
  router.get('/:barkodNo', async (req, res) => {
    try {
      const { barkodNo } = req.params;
-     console.log(barkodNo);
+    
      // Barkod numarasına göre ilişkili ürünü bulma
      const productBarkod = await dbConnection.ProductBarcode.findOne({
        where: { barkodNo },
