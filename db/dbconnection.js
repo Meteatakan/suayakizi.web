@@ -3,7 +3,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: './data.sqlite' // Veritabanı dosyası burada saklanacak
+    storage: './resource/data.sqlite' // Veritabanı dosyası burada saklanacak
   });
 
   const Product = sequelize.define('Product', {

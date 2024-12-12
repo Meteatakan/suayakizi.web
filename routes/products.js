@@ -1,11 +1,12 @@
 const express = require('express');
 const { response } = require('../app');
 const dbConnection = require('../db/dbconnection'); 
+const PASSWORD = require('./constants');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
    try {
-      if (req.headers.authorization != "opak") {
+      if (req.headers.authorization != PASSWORD) {
          res.status(401).json({ message: 'Yetkiniz yok' });
          return;
       }

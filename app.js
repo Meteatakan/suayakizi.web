@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
  
 var barcode = require('./routes/barcode');
 var products = require('./routes/products');
+var login = require('./routes/login');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
  
 app.use('/barcode',barcode);
+app.use('/login',login);
 app.use('/products',products);
 
 

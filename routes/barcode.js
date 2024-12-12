@@ -1,11 +1,16 @@
 const express = require('express');
 const { response } = require('../app');
+const PASSWORD = require('./constants');
 const dbConnection = require('../db/dbconnection'); 
 const router = express.Router();
 
 
 router.post('/', async (req, res) => {
    try {
+    if (req.headers.authorization != PASSWORD) {
+        res.status(401).json({ message: 'Yetkiniz yok' });
+        return;
+     }
      const { barkodNo, productId } = req.body;
      const productBarkod = await dbConnection.ProductBarcode.create({ 
        barkodNo, 
