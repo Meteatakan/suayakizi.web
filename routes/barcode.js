@@ -4,15 +4,33 @@ const PASSWORD = require('./constants');
 const dbConnection = require('../db/dbconnection'); 
 const router = express.Router();
 
+const jwt = require("jsonwebtoken");
 
 router.post('/', async (req, res) => {
+
+  try {
+    const token = req.headers .authorization.split(' ')[1];
+    jwt.verify(token, "secretkeyappearshere");
+    //Authorization: 'Bearer TOKEN'
+    if (!token) {
+        res.status(401)
+          .json(
+              {
+                  success: false,
+                  message: "You don't have the required rights"
+              }
+          );
+          return;
+    }}catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "You don't have the required rights" });
+      return;
+    }
+
    try {
-    if (req.headers.authorization != PASSWORD) {
-        res.status(401).json({ message: 'Yetkiniz yok' });
-        return;
-     }
+     
      const { barkodNo, productId } = req.body;
-     const productBarkod = await dbConnection.ProductBarcode.create({ 
+     const productBarkod = await dbConnection.Barcode.create({ 
        barkodNo, 
        product_id : productId// Burada product_id'yi manuel olarak belirtiyoruz
      });
@@ -28,7 +46,7 @@ router.post('/', async (req, res) => {
      const { barkodNo } = req.params;
     
      // Barkod numarasına göre ilişkili ürünü bulma
-     const productBarkod = await dbConnection.ProductBarcode.findOne({
+     const productBarkod = await dbConnection.Barcode.findOne({
        where: { barkodNo },
        include: dbConnection.Product // Product tablosunu dahil et
      });

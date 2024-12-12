@@ -23,7 +23,7 @@ const sequelize = new Sequelize({
     timestamps: false
   });
 
-  const ProductBarcode = sequelize.define('ProductBarcode', {
+  const Barcode = sequelize.define('Barcode', {
     barkodNo: {
       type: DataTypes.STRING,
       allowNull: false
@@ -32,11 +32,11 @@ const sequelize = new Sequelize({
     timestamps: false
   });
 
-  Product.hasMany(ProductBarcode, { foreignKey: 'product_id' });
-  ProductBarcode.belongsTo(Product, { foreignKey: 'product_id' });
+  Product.hasMany(Barcode, { foreignKey: 'product_id' });
+  Barcode.belongsTo(Product, { foreignKey: 'product_id' });
 
   sequelize.sync().then(() => {
     console.log('Veritabanı senkronize edildi.');
   });
 
-  module.exports = { Product, ProductBarcode };
+  module.exports = { Product, Barcode };
