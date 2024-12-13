@@ -12,10 +12,7 @@ var login = require('./routes/login');
 
 var app = express();
 
-const port = process.env.PORT || 4000;
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+ 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
