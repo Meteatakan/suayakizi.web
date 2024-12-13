@@ -7,6 +7,18 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 router.post('/', async (req, res) => {
    try {
+    
+    
+    if (req.headers.authorization == undefined || req.headers.authorization.split(' ').length != 2 ){
+      res.status(401)
+          .json(
+              {
+                  success: false,
+                  message: "You don't have the required rights"
+              }
+          );
+          return;
+    }
     const token = req.headers .authorization.split(' ')[1];
       jwt.verify(token, "secretkeyappearshere");
     //Authorization: 'Bearer TOKEN'
@@ -21,7 +33,13 @@ router.post('/', async (req, res) => {
           return;
     }}catch (error) {
       console.log(error);
-      res.status(500).json({ message: "You don't have the required rights" });
+      res.status(401)
+      .json(
+          {
+              success: false,
+              message: "You don't have the required rights"
+          }
+      );
       return;
     }
     try{
@@ -47,12 +65,13 @@ router.post('/', async (req, res) => {
      const { barkodNo } = req.params;
      // Barkod numarasına göre ilişkili ürünü bulma
    //  const products = await dbConnection.Product.findAll(); 
-     const products = await dbConnection.Product.findAll({
-      include: [{
-        model: dbConnection.Barcode,
-        as: 'Barcodes' // Eğer ilişkiyi 'as' ile isimlendirdiyseniz burada kullanmalısınız
-      }]
-    });
+   const products = await dbConnection.Product.findAll({
+    include: [{
+      model: dbConnection.ProductBarcode, // Barkod modelini doğru şekilde kullanın
+      as: 'ProductBarcodes', // İlişkiyi doğru adla belirlediyseniz
+      where: { barkodNo } // Barkod numarasına göre filtreleme yapıyoruz
+    }]
+  });
       
        res.status(200).json(products); // Ürün bilgilerini döndür
       

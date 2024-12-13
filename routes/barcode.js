@@ -9,7 +9,18 @@ const jwt = require("jsonwebtoken");
 router.post('/', async (req, res) => {
 
   try {
-    const token = req.headers .authorization.split(' ')[1];
+    
+    if (req.headers.authorization == undefined || req.headers.authorization.split(' ').length != 2 ){
+      res.status(401)
+          .json(
+              {
+                  success: false,
+                  message: "You don't have the required rights"
+              }
+          );
+          return;
+    }
+    const token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, "secretkeyappearshere");
     //Authorization: 'Bearer TOKEN'
     if (!token) {
@@ -23,7 +34,13 @@ router.post('/', async (req, res) => {
           return;
     }}catch (error) {
       console.log(error);
-      res.status(500).json({ message: "You don't have the required rights" });
+      res.status(500)
+          .json(
+              {
+                  success: false,
+                  message: "Error on server"
+              }
+          );
       return;
     }
 
