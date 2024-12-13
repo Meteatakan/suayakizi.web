@@ -34,11 +34,11 @@ router.post('/', async (req, res) => {
           return;
     }}catch (error) {
       console.log(error);
-      res.status(500)
+      res.status(401)
           .json(
               {
                   success: false,
-                  message: "Error on server"
+                  message: "You don't have the required rights"
               }
           );
       return;
