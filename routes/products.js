@@ -65,8 +65,8 @@ router.post('/', async (req, res) => {
      
    const products = await dbConnection.Product.findAll({
     include: [{
-      model: dbConnection.ProductBarcode, // Barkod modelini doğru şekilde kullanın
-      as: 'ProductBarcodes', // İlişkiyi doğru adla belirlediyseniz
+      model: dbConnection.Barcode, // Barkod modelini doğru şekilde kullanın
+      as: 'Barcodes', // İlişkiyi doğru adla belirlediyseniz
      
     }]
   });
